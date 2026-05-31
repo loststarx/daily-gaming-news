@@ -1,10 +1,10 @@
-name: Daily Gaming News
+name: Daily News
 
 on:
   schedule:
     # UTC 22:00 = 北京时间 06:00
     - cron: '0 22 * * *'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,13 +22,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Fetch and aggregate gaming news
+      - name: Fetch gaming news
         run: python fetch_news.py
+
+      - name: Fetch tech news
+        run: python fetch_tech_news.py
 
       - name: Commit and push
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_message: 每日游戏新闻更新
+          commit_message: 每日新闻更新（游戏 + 科技）
           file_pattern: news/*.md
           commit_user_name: github-actions[bot]
           commit_user_email: github-actions[bot]@users.noreply.github.com
