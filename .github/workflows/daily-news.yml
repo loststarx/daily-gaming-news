@@ -6,6 +6,9 @@ on:
     - cron: '0 22 * * *'
   workflow_dispatch:  # 允许手动触发
 
+permissions:
+  contents: write
+
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
@@ -25,5 +28,8 @@ jobs:
       - name: Commit and push
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: '每日游戏新闻更新 $(date +%Y-%m-%d)'
+          commit_message: 每日游戏新闻更新
           file_pattern: news/*.md
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          token: ${{ secrets.GITHUB_TOKEN }}

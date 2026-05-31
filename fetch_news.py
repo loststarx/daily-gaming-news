@@ -7,6 +7,7 @@
 import hashlib
 import os
 import re
+import zoneinfo
 from datetime import date, datetime
 from pathlib import Path
 
@@ -14,8 +15,11 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 
+# 使用北京时间 (Asia/Shanghai)
+BEIJING_TZ = zoneinfo.ZoneInfo("Asia/Shanghai")
+TODAY = datetime.now(BEIJING_TZ).date()
+
 NEWS_DIR = Path(__file__).parent / "news"
-TODAY = date.today()
 TODAY_STR = TODAY.strftime("%Y-%m-%d")
 TODAY_CN = f"{TODAY.year}年{TODAY.month}月{TODAY.day}日"
 
@@ -226,7 +230,7 @@ def format_markdown(items):
     lines.append(f"# 游戏圈日报 {TODAY_CN}")
     lines.append(f"")
     lines.append(f"> **数据源**: 游民星空 / 3DMGame / 游戏大观")
-    lines.append(f"> **更新时间**: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    lines.append(f"> **更新时间**: {datetime.now(BEIJING_TZ).strftime('%Y-%m-%d %H:%M')}")
     lines.append(f"")
     lines.append("---")
     lines.append("")
